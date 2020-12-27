@@ -1,0 +1,219 @@
+/*Статья*/
+
+.article-block {
+	width: 100%;
+	height: auto;
+	padding: 2%;
+	box-sizing: border-box;
+}
+
+.article-item {
+	width: 100%;
+	height: auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.article-title-container {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	height: auto;
+	position: relative;
+}
+
+.article-title {
+	width: 100%;
+	height: auto;
+}
+.article-title h1 {
+	font-size: 30px;
+	margin: 0;
+	text-align: center;
+}
+.article-date {
+	position: absolute;
+	right: 0;
+	width: 20%;
+	text-align: right;
+	font-size: 18px;
+}
+
+.article-image-container {
+	width: 40%;
+	height: auto;
+	margin: 2% auto 0% auto;
+}
+.article-image-container img {
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+}
+.article-text-container {
+	width: 100%;
+	height: auto;
+	text-align: justify;
+	margin-top: 2%;
+	font-size: 18px;
+	line-height: 1.5em;
+}
+
+.article-text-container p {
+	text-indent: 40px;
+}
+.article-text-container p:first-letter {
+	text-transform: uppercase;
+}
+.article-buttons {
+    width: 80%;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.article-buttons a {
+    width: 30%;
+    height: 60px;
+    display: inline-block;
+    color: inherit;
+    text-align: center;
+    font-size: 24px;
+    line-height: 2.5em;
+    background-color: rgba(22, 19, 38, 1);
+    border-radius: 20px;
+    text-decoration: none;
+}
+.article-buttons a:hover {
+    color: #fff;
+    text-shadow: 0px 0px 3px #fff;
+}
+/*Комментарии*/
+
+.comments-block {
+    width: 100%;
+    height: auto;
+    padding: 2%;
+    box-sizing: border-box;
+}
+
+.comments-block h2 {
+    width: 40%;
+    height: auto;
+    font-size: 26px;
+    margin: 0 auto;
+    text-align: center;
+}
+.write-comment {
+    width: 60%;
+    height: auto;
+    margin: 0 auto;
+}
+
+.write-comment form {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+
+.write-comment form input[type="text"] {
+    width: 60%;
+    height: 40px;
+    font-size: 18px;
+    margin-top: 3%;
+    padding: 1%;
+    box-sizing: border-box;
+}
+
+.write-comment form input[type="text"]:focus {
+    outline: 0;
+    border: 0;
+    box-shadow: 0px 0px 10px #FFF;
+}
+
+.write-comment form textarea {
+    width: 60%;
+    height: 200px;
+    font-size: 18px;
+    margin-top: 3%;
+    padding: 1%;
+    box-sizing: border-box;
+}
+
+.write-comment form textarea:focus {
+    outline: 0;
+    border: 0;
+    box-shadow: 0px 0px 10px #FFF;
+}
+
+.write-comment form input[type="submit"] {
+    width: 30%;
+    height: 60px;
+    margin-top: 3%;
+    display: inline-block;
+    color: inherit;
+    text-align: center;
+    font-size: 24px;
+    line-height: 2.5em;
+    background-color: rgba(22, 19, 38, 1);
+    border-radius: 20px;
+    border: 0;
+}
+
+.write-comment form input[type="submit"]:focus {
+    outline: 0;
+}
+
+.write-comment form input[type="submit"]:hover {
+    color: #fff;
+    text-shadow: 0px 0px 3px #fff;
+}
+
+.comments-container {
+
+}
+
+.comments-item {
+    width: 30%;
+    height: auto;
+}
+.comments-item-author {
+
+}
+
+.comments-item-text {
+
+}
+
+.comments-item-date {
+
+}
+
+.comments-item-author p, .comments-item-text p, .comments-item-date p {
+    width: 100%;
+}
+
+/*всплывающее окно*/
+.back-confirm {
+    position: fixed;
+    width: 100%;
+    min-height: 100vh;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 2;
+    top:0;
+}
+.block-confirm {
+    position: fixed;
+    width: 20%;
+    height: 100px;
+    background-color: #fff;
+    top:30%;
+    left:40%;
+}

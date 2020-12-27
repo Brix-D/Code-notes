@@ -1,0 +1,91 @@
+{% extends 'template.html' %}
+{% block main %}
+<main class="wrapper violet-text-color background-wrapper-color">
+    <div class="article-block">
+        <div class="article-item">
+            <div class="article-title-container">
+                <div class="article-title">
+                    <h1>{{ note.title }}</h1>
+                </div>
+                <div class="article-date">
+                    <p>{{ note.created|date:"Y-m-d" }}</p>
+                </div>
+            </div>
+            {% if note.picture %}
+            <div class="article-image-container">
+                <img src="/{{ note.picture }}" alt="Фото">
+            </div>
+            {% endif %}
+            <div class="article-text-container">
+                <p>{{ note.article }}</p>
+            </div>
+        </div>
+        <div class="article-buttons">
+            <a href="">Редактировать</a>
+            <a href="javascript:showPU()">Удалить</a>
+        </div>
+    </div>
+    <div class="comments-block">
+        <h2>Комментарии</h2>
+        <div class="write-comment">
+            <form action="{% url 'addComment' id=note.pk %}" method="POST">
+                {% csrf_token %}
+                {% for field in form %}
+                {% if field.errors %}
+                <span style="color: red;"> {{ field.errors }}</span>
+                {% endif %}
+                {{ field }}
+                {% endfor %}
+                <input type="submit" value="Отправить">
+            </form>
+        </div>
+        <div class="comments-container">
+            <div class="comments-item">
+                {% if comms %}
+                {% for comment in comms %}
+                <div class="comments-item-author">
+                    <p>{{ comment.author }}:</p>
+                </div>
+                <div class="comments-item-text">
+                    <p>{{ comment.text }}</p>
+                </div>
+                <div class="comments-item-date">
+                    <p>{{ comment.created|date:"Y-m-d" }}</p>
+                </div>
+                {% endfor %}
+                {% else %}
+                <div class="comments-item-text">
+                    <p>Эту запись еще никто не комментировал</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</main>
+<div class="back-confirm" id="popup">
+    <div class="block-confirm">
+        <p>Данная запись будет удалена. Подтвердить?</p>
+        <a href="deletenote">Да</a>
+        <a href="javascript:hidePU()">Нет</a>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        hidePU();
+    });
+    function showPU() {
+        $('#popup').show();
+    }
+    function hidePU(){
+        $('#popup').hide();
+    }
+
+
+
+
+
+
+
+</script>
+{% endblock %}
+

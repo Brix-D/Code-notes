@@ -1,0 +1,94 @@
+.title {
+    font-weight: bold;
+}
+
+.violet-text-color {
+    color: #b2adcc;
+}
+
+.font-stl {
+    font-style: italic;
+}
+/*Статьи*/
+.news-container {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.new-block {
+    width: 100%;
+    height: auto;
+    padding: 2%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-bottom: 2%;
+}
+
+.new-title-block {
+    width: 100%;
+    height: auto;
+    position: relative;
+    display: flex;
+    font-display: row;
+    justify-content: space-between;
+    font-size: 30px;
+    line-height: 2em;
+}
+
+.new-title {
+    width: 100%;
+    height: auto;
+    text-align: center;
+}
+.new-title a {
+    font-weight: bold;
+    text-decoration: none;
+    
+}
+
+.new-date{
+    width: 20%;
+    height: auto;
+    position: absolute;
+    right: 0;
+    font-size: 18px;
+    text-align: right;
+}
+.new-body {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.picture-container {
+    padding: 0 2% 2% 0;
+    width: 20%;
+    float: left;
+    height: auto;
+}
+
+.picture-container img {
+    width: 100%;
+    height: auto;
+}
+
+.new-article {
+    width: 100%;
+    text-align: justify;
+    font-size: 18px;
+    line-height: 1.5em;
+}
+
+.new-article p {
+    margin: 0;
+    text-indent: 40px;
+}
+.new-article p:first-letter {
+    text-transform: uppercase;
+}

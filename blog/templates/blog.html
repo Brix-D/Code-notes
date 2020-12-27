@@ -1,0 +1,35 @@
+{% extends 'template.html' %}
+{% block main %}
+{% load static %}
+
+<main class="wrapper violet-text-color">
+    <div class="news-container background-wrapper-color">
+        {% for item in data %}
+        <div class="new-block">
+            <div class="new-title-block">
+                <div class="new-title">
+                    <a href="{{ item.get_absolute_url }}" class="violet-text-color">{{ item.title }}</a>
+                </div>
+                <div class="new-date">
+                    {{ item.created|date:"Y-m-d" }}
+                </div>
+            </div>
+            <div class="new-body">
+                <div class="new-article">
+                    <div class="picture-container">
+
+                {% if item.picture %}
+                        <img src="{{ item.picture }}" alt="Фото">
+                {% else %}
+                        <img src="{% static 'img/empty.png' %}" alt="Фото">
+                {% endif %}
+                     </div>
+                    <p>{{ item.article|slice:":1300" }}</p>
+                    <!-- {% lorem 4 b %} -->
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</main>
+{% endblock %}

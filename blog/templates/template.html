@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Блог</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+    <link rel="stylesheet" href="{% static 'css/comments.css' %}">
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+</head>
+<body>
+<header>
+    <div class="logo_block">
+        <a href="{% url 'blog' %}">
+            <div class="logo_img_container">
+                <div class="img"></div>
+                <!-- <img src="{% static 'img/logo.svg' %}" alt=""> -->
+            </div>
+            <div class="logo_text_container">
+                <p>Заметки о коде</p>
+            </div>
+        </a>
+    </div>
+    <div class="navigation">
+        <div class="navigation-inner">
+            <nav>
+                <ul>
+                    <li>
+                        <a href=""><p>Войти</p></a>
+                    </li>
+                    <li>
+                        <a href="{% url 'addNote' %}"><p>Новая запись</p></a>
+                    </li>
+                    <li>
+                        <a href=""><p>Отправить сообщение</p></a>
+                    </li>
+                    <li>
+                        <a href=""><p>Информация</p></a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="search-block">
+                <form action="{% url 'searchmulty' %}" method="post" id="search" class="search_form">
+                    {% csrf_token %}
+                    <!-- <p>Поиск по одному слову:</p>
+                    <input type="text" name="one" id="oneword" placeholder="Начните вводить слово"> -->
+                    <input type="text" name="multy" id="multyword" placeholder="Искать">
+                    <div class="result invisible" id="res"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="header-under">
+    
+</div>
+<div class="background">
+        {% block main %}
+        {% endblock %}
+</div>
+<script type="text/javascript" src="{% static 'js/lookfor.js' %}"></script>
+</body>
+</html>
