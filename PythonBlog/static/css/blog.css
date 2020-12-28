@@ -92,3 +92,28 @@
 .new-article p:first-letter {
     text-transform: uppercase;
 }
+
+.pagination-news-block {
+    width: 60%;
+    height: 10%;
+    display: flex;
+    justify-content: space-around;
+    margin: 0 auto;
+    padding-bottom: 2%;
+    box-sizing: border-box;
+}
+.pagination-news-block .step-links {
+
+}
+
+.pagination-news-block .step-links a {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    color: #b2adcc;
+    text-decoration: none;
+    font-size: 18px;
+    background-color: rgba(22, 19, 38, 1);
+    text-align: center;
+    line-height: 2.5em;
+}

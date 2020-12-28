@@ -30,6 +30,19 @@
             </div>
         </div>
         {% endfor %}
+        <div class="pagination-news-block">
+            <div class="step-links">
+                {% if data.has_previous %}
+                <a href="{% url 'blog' %}?page={{ data.previous_page_number }}">&lt;</a>
+                {% endif %}
+                {% for page in data.paginator.page_range %}
+                <a href="{% url 'blog' %}?page={{ page }}">{{ page }}</a>
+                {% endfor %}
+                {% if data.has_next %}
+                <a href="{% url 'blog' %}?page={{ data.next_page_number }}">&gt;</a>
+                {% endif %}
+            </div>
+        </div>
     </div>
 </main>
 {% endblock %}

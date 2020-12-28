@@ -4,12 +4,22 @@ from django.shortcuts import render, redirect, get_object_or_404, get_list_or_40
 from .models import Note, Comment
 from .forms import NoteForm, CommentForm
 from django.http import JsonResponse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 # Create your views here.
 
 
 def blog(request):
     """Вывод всех записей страницы блог"""
     articles = Note.objects.all()
+    articles_paginator = Paginator(articles, 2)
+    current_page = request.GET.get("page")
+    try:
+        articles = articles_paginator.page(current_page)
+    except EmptyPage:
+        articles = articles_paginator.page(1)
+    except PageNotAnInteger:
+        articles = articles_paginator.page(1)
     return render(request, 'blog.html', {"data": articles})
 
 
