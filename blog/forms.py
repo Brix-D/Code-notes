@@ -1,4 +1,6 @@
-from django.forms import ModelForm, Textarea, TextInput
+from fileinput import FileInput
+
+from django.forms import ModelForm, Textarea, TextInput, FileInput
 from .models import Note, Comment
 
 
@@ -8,8 +10,9 @@ class NoteForm(ModelForm):
         model = Note
         fields = ["title", "article", "picture"]
         widgets = {
-            "title": TextInput(),
-            "article": Textarea(attrs={'cols': 30, 'rows': 10})
+            "title": TextInput(attrs={'placeholder': 'Название:'}),
+            "article": Textarea(attrs={'cols': 30, 'rows': 10, 'placeholder': 'Текст:'}),
+            "picture": FileInput(attrs={'id': 'upload-file'}),
         }
 
 

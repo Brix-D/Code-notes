@@ -1,19 +1,29 @@
-html, body {
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --main-text-color: #b2adcc;
+    --main-background-color: rgba(22, 19, 38, 1);
+    --wrapper-background-color: #2D2847;
+    --hover-text-color: #fff;
+    --form-input-color: #ffffffd6;
+    --shadow-background-color: rgba(0,0,0,0.5);
+}
+
+html, body {
     font-family: Lato,sans-serif;
     font-size: 16px;
-    
-    background: #ffffffd6;
 }
 .background {
-    background: url('../img/Stars.png') no-repeat rgba(22, 19, 38, 1);
+    background: url('../img/Stars.png') no-repeat var(--main-background-color);
     background-size: cover;
-    //background-position: 25px, 0px;
     background-attachment: fixed;
 }
 .background-wrapper-color {
-    background-color: #2D2847;
+    background-color: var(--wrapper-background-color);
     border-radius: 1%;
 }
 .navigation {
@@ -44,7 +54,7 @@ header {
     flex-direction: row;
     justify-content: space-around;
     color: #b2adcc;
-    background: rgba(22, 19, 38, 1);
+    background: var(--main-background-color);
     position: fixed;
     z-index: 2;
 }
@@ -125,7 +135,7 @@ header .navigation .navigation-inner nav ul {
 }
 .navigation-inner nav ul li a:hover, header .logo_block a .logo_text_container p:hover {
     color: #FFF;
-    text-shadow: 0px 0px 3px #FFF;
+    text-shadow: 0px 0px 3px var(--hover-text-color);
 }
 .navigation-inner nav ul li a p {
     text-align: center;
@@ -146,7 +156,6 @@ header .navigation .navigation-inner nav ul {
 .search_form {
     width: 100%;
     height: auto;
-    //margin: 20px 0;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -159,21 +168,28 @@ header .navigation .navigation-inner nav ul {
     border: 0;
     outline: 0;
     opacity: 1;
-    color: rgba(22, 19, 38, 1);
+    color: var(--main-background-color);
     font-size: 18px;
 }
+
+.search_form input:focus {
+    outline: 0;
+    border: 0;
+    box-shadow: 0px 0px 10px var(--hover-text-color);
+}
+
 .invisible {
     display: none;
 }
 .result {
-    background-color: #ffffffd6;
+    background-color: var(--form-input-color);
     width: 100%;
     margin: 0 auto;
     border: 1px solid #000;
     padding: 0 4%;
     box-sizing: border-box;
     opacity: 1;
-    color: rgba(22, 19, 38, 1);
+    color: var(--main-background-color);
 }
 .result p a {
     font-size: 18px;
@@ -184,7 +200,7 @@ header .navigation .navigation-inner nav ul {
     margin: 0;
     padding: 4% 0;
     box-sizing: border-box;
-    border-bottom: 1px solid rgba(22, 19, 38, 1);
+    border-bottom: 1px solid var(--main-background-color);
 }
 .result p:last-child {
     border-bottom: 0px;

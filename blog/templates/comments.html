@@ -21,7 +21,7 @@
             </div>
         </div>
         <div class="article-buttons">
-            <a href="">Редактировать</a>
+            <a href="{% url 'editNote' note.pk %}">Редактировать</a>
             <a href="javascript:showPU()">Удалить</a>
         </div>
     </div>
@@ -65,7 +65,7 @@
 <div class="back-confirm" id="popup">
     <div class="block-confirm">
         <p>Данная запись будет удалена. Подтвердить?</p>
-        <a href="deletenote">Да</a>
+        <a href="{% url 'deleteNote' note.pk %}">Да</a>
         <a href="javascript:hidePU()">Нет</a>
     </div>
 </div>

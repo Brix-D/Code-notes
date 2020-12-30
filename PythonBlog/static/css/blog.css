@@ -3,7 +3,7 @@
 }
 
 .violet-text-color {
-    color: #b2adcc;
+    color: var(--main-text-color);
 }
 
 .font-stl {
@@ -12,7 +12,7 @@
 /*Статьи*/
 .news-container {
     width: 100%;
-    height: auto;
+    min-height: inherit;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -113,7 +113,7 @@
     color: #b2adcc;
     text-decoration: none;
     font-size: 18px;
-    background-color: rgba(22, 19, 38, 1);
+    background-color: var(--main-background-color);
     text-align: center;
     line-height: 2.5em;
 }

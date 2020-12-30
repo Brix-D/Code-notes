@@ -12,7 +12,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 def blog(request):
     """Вывод всех записей страницы блог"""
     articles = Note.objects.all()
-    articles_paginator = Paginator(articles, 2)
+    articles_paginator = Paginator(articles, 3)
     current_page = request.GET.get("page")
     try:
         articles = articles_paginator.page(current_page)
@@ -43,7 +43,29 @@ def add_note(request):
             return redirect("blog")
     else:
         form = NoteForm()
-    return render(request, 'newnote.html', {"form": form})
+    return render(request, 'newnote.html', {"form": form, "mode": "add"})
+
+
+def edit_note(request, id):
+    """Редактирование статьи"""
+    note = get_object_or_404(Note, pk=id)
+    if request.method == "POST":
+        if request.POST.get("deleteimg"):
+            note.picture = ""
+        form = NoteForm(request.POST, request.FILES, instance=note)
+        if form.is_valid():
+            form.save()
+            return redirect("comments", id=id)
+    else:
+        form = NoteForm(instance=note)
+        return render(request, 'newnote.html', {"form": form, "mode": "edit", "id": id})
+
+
+def delete_note(request, id):
+    """Удаление статьи"""
+    note = get_object_or_404(Note, pk=id)
+    note.delete()
+    return redirect("blog")
 
 
 def add_comment(request, id):

@@ -1,18 +1,38 @@
 {% extends "template.html" %}
 {% block main %}
-<main class="inform">
-        <h3>Добавить статью</h3>
-        <form action="" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {% for field in form %}
-            {% if field.errors %}
-            <span style="color: red;"> {{ field.errors }}</span>
+<main class="wrapper violet-text-color">
+    <div class="add-note-container">
+        <div class="add-note-form-container">
+            {% if mode == 'add' %}
+            <h1>Добавить статью</h1>
+            {% else  %}
+            <h1>Изменить статью</h1>
             {% endif %}
-            <p>{{ field.label }}</p>
-            {{ field }}<br>
-            {% endfor %}
-            <input type="submit" name="add" value="Сохранить">
-        </form>
-    <a href="{% url 'blog' %}">На главную</a>
+            <form action="
+            {% if mode == 'add' %}
+            {% url 'addNote' %}
+            {% else %}
+            {% url 'editNote' id %}
+            {% endif %}
+            " method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% for field in form %}
+                {% if field.errors %}
+                <span style="color: red;"> {{ field.errors }}</span>
+                {% endif %}
+                {{ field }}
+                {% endfor %}
+                <label class="label-file" for="upload-file">
+                    <i class="icon fa fa-check"></i>
+                    <span class="js-fileName">Загрузить фото</span>
+                </label>
+                {% if mode == 'edit' %}
+                <input type="checkbox" id="deleteimg" name="deleteimg">
+                <label for="deleteimg">Убрать фото</label>
+                {% endif %}
+                <input type="submit" name="add" value="Сохранить">
+            </form>
+        </div>
+    </div>
 </main>
 {% endblock %}
