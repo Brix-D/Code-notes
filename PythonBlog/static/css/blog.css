@@ -37,18 +37,24 @@
     font-display: row;
     justify-content: space-between;
     font-size: 30px;
-    line-height: 2em;
+    line-height: 1.5em;
 }
 
 .new-title {
-    width: 100%;
+    width: 80%;
     height: auto;
+    margin: 0 auto;
     text-align: center;
 }
 .new-title a {
     font-weight: bold;
     text-decoration: none;
     
+}
+
+.new-title a:hover {
+    color: var(--hover-text-color);
+    text-shadow: 0px 0px 3px var(--hover-text-color);
 }
 
 .new-date{
@@ -116,4 +122,9 @@
     background-color: var(--main-background-color);
     text-align: center;
     line-height: 2.5em;
+}
+
+.pagination-news-block .step-links a:hover {
+    color: var(--hover-text-color);
+    text-shadow: 0px 0px 3px var(--hover-text-color);
 }

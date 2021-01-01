@@ -13,7 +13,7 @@ function FuncSuccess(result) {
             result_block.append(p);
             p.append(a);
             a.innerHTML = value["fields"]["title"];
-            a.href = "/comments/"+value["pk"];
+            a.href = "/note/view/"+value["pk"];
         });
         }
     }

@@ -134,7 +134,7 @@ header .navigation .navigation-inner nav ul {
     display: block;
 }
 .navigation-inner nav ul li a:hover, header .logo_block a .logo_text_container p:hover {
-    color: #FFF;
+    color: var(--hover-text-color);
     text-shadow: 0px 0px 3px var(--hover-text-color);
 }
 .navigation-inner nav ul li a p {
