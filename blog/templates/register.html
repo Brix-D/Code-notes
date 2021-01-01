@@ -1,0 +1,20 @@
+{% extends 'template.html' %}
+{% block main %}
+<main class="wrapper violet-text-color">
+    <div class="register-container">
+        <div class="register-form-container">
+            <h1>Регистрация</h1>
+            <form action="{% url 'register' %}" method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                {% if field.errors %}
+                <span style="color: red;"> {{ field.errors }}</span>
+                {% endif %}
+                {{ field }}
+                {% endfor %}
+                <input type="submit" name="register" value="Зарегистрироватся">
+            </form>
+        </div>
+    </div>
+</main>
+{% endblock %}

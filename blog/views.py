@@ -2,7 +2,7 @@ from django.core import serializers
 from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from .models import Note, Comment
-from .forms import NoteForm, CommentForm
+from .forms import NoteForm, CommentForm, RegisterUserForm
 from django.http import JsonResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
@@ -23,7 +23,7 @@ def blog(request):
     return render(request, 'blog.html', {"data": articles})
 
 
-def comments(request, id):
+def view_note(request, id):
     """Вывод всех комментариев для указанной записи"""
     # Comment.objects.create(author="Димас", text="Хуяк хуяк и в продакшн!", art_id=id)
     # note = Note.objects.get(pk=id)
@@ -106,8 +106,8 @@ def search_multy(request):
         if not words:
             return JsonResponse(response)
         array_words = words.split()
-        #result_base = Note.objects.all()
-        #result = []
+        # result_base = Note.objects.all()
+        # result = []
         result = Note.objects.all()
         for w in array_words:
             q_list = Q()
@@ -121,6 +121,23 @@ def search_multy(request):
         return JsonResponse(response, safe=False)
 
     return JsonResponse(response)
+
+
+def register_user(request):
+    """Регистрация пользователя"""
+    if request.method == 'POST':
+        form = RegisterUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+    else:
+        form = RegisterUserForm()
+    return render(request, 'register.html', {"form": form})
+
+
+def login_user(request):
+    """Авторизация пользователя"""
+    return render(request, 'login.html')
 
 
 def error404(request, exception):

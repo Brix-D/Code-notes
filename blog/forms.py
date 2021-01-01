@@ -1,6 +1,7 @@
-from fileinput import FileInput
-
-from django.forms import ModelForm, Textarea, TextInput, FileInput
+from django import forms
+from django.forms import ModelForm, Textarea, TextInput, FileInput, PasswordInput, EmailInput
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import User
 from .models import Note, Comment
 
 
@@ -30,3 +31,23 @@ class CommentForm(ModelForm):
             "text": "Текст:"
         }
 
+
+class RegisterUserForm(UserCreationForm):
+    """Форма для регистрации пользователей"""
+    username = forms.CharField(widget=TextInput(attrs={'placeholder': 'Ваш логин:', "autocomplete": "off"}))
+    email = forms.EmailField(widget=EmailInput(attrs={'placeholder': 'Ваш e-mail:', "autocomplete": "off"}))
+    password1 = forms.CharField(widget=PasswordInput(attrs={'placeholder': 'Ваш пароль:', "autocomplete": "off"}))
+    password2 = forms.CharField(widget=PasswordInput(attrs={'placeholder': 'Повторите пароль:', "autocomplete": "off"}))
+
+    def __init__(self, *args, **kwargs):
+        """
+        Переопределение конструктора формы, чтобы убрать атрибут автофокус
+        у поля ввода имени пользователя, который унаследован у родителя формы
+        https://stackoverflow.com/questions/21515605/remove-autofocus-attribute-from-field-in-django
+        """
+        super(RegisterUserForm, self).__init__(*args, **kwargs)
+        self.fields["username"].widget.attrs.pop("autofocus", None)
+
+    class Meta:
+        model = User
+        fields = ["username", "email", "password1", "password2"]

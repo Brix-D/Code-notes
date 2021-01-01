@@ -19,6 +19,7 @@ class Note(models.Model):
     # поле хранит название картинки, и папку куда следует загружать картинку, %Y-%m-%d дата загрузки в названии папки
 
     def get_absolute_url(self):
+        """Метод для получения url экземпляра модели через представление"""
         return reverse("viewNote", kwargs={"id": self.pk})
 
     class Meta:
