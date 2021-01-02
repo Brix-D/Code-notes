@@ -35,15 +35,21 @@
                     <li>
                         <a href=""><p>Статистика</p></a>
                     </li>
+                    {% if not request.user.is_authenticated %}
                     <li>
-                        <a href="{% url 'login' %}"><p>Войти</p></a>
+                        <a href="{% url 'login' %}?next={{ request.path }}"><p>Войти</p></a>
                     </li>
-<!--                    <li>-->
-<!--                        <a href="{% url 'addNote' %}"><p>Новая запись</p></a>-->
-<!--                    </li>-->
                     <li>
-                        <a href="{% url 'register' %}"><p>Зарегистрироватся</p></a>
+                        <a href="{% url 'register' %}?next={{ request.path }}"><p>Зарегистрироватся</p></a>
                     </li>
+                    {% else %}
+                    <li>
+                        <a href="{% url 'addNote' %}"><p>Новая запись</p></a>
+                    </li>
+                    <li>
+                        <a href="{% url 'logout' %}?next={{ request.path }}"><p>Выйти</p></a>
+                    </li>
+                    {% endif %}
                 </ul>
             </nav>
             <div class="search-block">

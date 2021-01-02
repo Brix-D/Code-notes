@@ -20,31 +20,39 @@
                 <p>{{ note.article }}</p>
             </div>
         </div>
-        <div class="article-buttons">
-            <a href="{% url 'editNote' note.pk %}">Редактировать</a>
-            <a href="javascript:showPU()">Удалить</a>
-        </div>
+        {% if request.user.is_authenticated %}
+            <div class="article-buttons">
+                <a href="{% url 'editNote' note.pk %}">Редактировать</a>
+                <a href="javascript:showPU()">Удалить</a>
+            </div>
+        {% endif %}
     </div>
     <div class="comments-block">
         <h2>Комментарии</h2>
-        <div class="write-comment">
-            <form action="{% url 'addComment' id=note.pk %}" method="POST">
-                {% csrf_token %}
-                {% for field in form %}
-                {% if field.errors %}
-                <span style="color: red;"> {{ field.errors }}</span>
-                {% endif %}
-                {{ field }}
-                {% endfor %}
-                <input type="submit" value="Отправить">
-            </form>
-        </div>
+        {% if request.user.is_authenticated %}
+            <div class="write-comment">
+                <form action="{% url 'addComment' id=note.pk %}" method="POST">
+                    {% csrf_token %}
+                    {% for field in form %}
+                    {% if field.errors %}
+                    <span style="color: red;"> {{ field.errors }}</span>
+                    {% endif %}
+                    {{ field }}
+                    {% endfor %}
+                    <input type="submit" value="Отправить">
+                </form>
+            </div>
+        {% endif %}
         <div class="comments-container">
             <div class="comments-item">
                 {% if comms %}
                 {% for comment in comms %}
                 <div class="comments-item-author">
-                    <p>{{ comment.author }}:</p>
+                    {% if comment.author.username %}
+                    <p>{{ comment.author.username }}:</p>
+                    {% else %}
+                    <p>Удалено</p>
+                    {% endif %}
                 </div>
                 <div class="comments-item-text">
                     <p>{{ comment.text }}</p>
@@ -79,13 +87,6 @@
     function hidePU(){
         $('#popup').hide();
     }
-
-
-
-
-
-
-
 </script>
 {% endblock %}
 

@@ -1,10 +1,13 @@
 from django.core import serializers
 from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
-from .models import Note, Comment
-from .forms import NoteForm, CommentForm, RegisterUserForm
 from django.http import JsonResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import login_required
+from .models import Note, Comment, User
+from .forms import NoteForm, CommentForm, RegisterUserForm, LoginUserForm
+
 
 # Create your views here.
 
@@ -25,7 +28,6 @@ def blog(request):
 
 def view_note(request, id):
     """Вывод всех комментариев для указанной записи"""
-    # Comment.objects.create(author="Димас", text="Хуяк хуяк и в продакшн!", art_id=id)
     # note = Note.objects.get(pk=id)
     note = get_object_or_404(Note, pk=id)
     comms = Comment.objects.filter(art__id=id)
@@ -34,6 +36,7 @@ def view_note(request, id):
     return render(request, 'comments.html', {"note": note, "comms": comms, "form": form})
 
 
+@login_required(login_url='login')
 def add_note(request):
     """Добавление статьи"""
     if request.method == "POST":
@@ -46,6 +49,7 @@ def add_note(request):
     return render(request, 'newnote.html', {"form": form, "mode": "add"})
 
 
+@login_required(login_url='login')
 def edit_note(request, id):
     """Редактирование статьи"""
     note = get_object_or_404(Note, pk=id)
@@ -55,12 +59,13 @@ def edit_note(request, id):
         form = NoteForm(request.POST, request.FILES, instance=note)
         if form.is_valid():
             form.save()
-            return redirect("comments", id=id)
+            return redirect("viewNote", id=id)
     else:
         form = NoteForm(instance=note)
         return render(request, 'newnote.html', {"form": form, "mode": "edit", "id": id})
 
 
+@login_required(login_url='login')
 def delete_note(request, id):
     """Удаление статьи"""
     note = get_object_or_404(Note, pk=id)
@@ -68,6 +73,7 @@ def delete_note(request, id):
     return redirect("blog")
 
 
+@login_required(login_url='login')
 def add_comment(request, id):
     """Добавление комментария"""
     if request.method == "POST":
@@ -76,8 +82,9 @@ def add_comment(request, id):
         if form.is_valid():
             entry = form.save(commit=False)
             entry.art_id = id
+            entry.author_id = request.user.pk
             entry.save()
-            return redirect("comments", id=id)
+            return redirect("viewNote", id=id)
     else:
         form = CommentForm()
     return render(request, "comments.html", {"form": form})
@@ -125,19 +132,58 @@ def search_multy(request):
 
 def register_user(request):
     """Регистрация пользователя"""
+    redirect_to = request.GET.get('next')
+    if request.user.is_authenticated:
+        # Если пользователь уже авторизован
+        # то ему нельзя получить доступ к страницам логина и регистрации
+        return redirect('blog')
     if request.method == 'POST':
         form = RegisterUserForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('login')
+            user = form.save()
+            login(request, user)
+            return redirect(redirect_to)
     else:
         form = RegisterUserForm()
-    return render(request, 'register.html', {"form": form})
+    return render(request, 'register.html', {"form": form, "redirect_to": redirect_to})
 
 
 def login_user(request):
-    """Авторизация пользователя"""
-    return render(request, 'login.html')
+    """
+    Авторизация пользователя
+    Редирект на предыдущую страницу осуществляется с помощью get параметра,
+    который в свою очередь подставляется в шаблоне как request URI
+    https://www.semicolonworld.com/question/53701/django-redirect-to-previous-page-after-login
+    """
+
+    redirect_to = request.GET.get('next')
+    if request.user.is_authenticated:
+        # Если пользователь уже авторизован
+        # то ему нельзя получить доступ к страницам логина и регистрации
+        return redirect('blog')
+    if request.method == 'POST':
+        form = LoginUserForm(data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect(redirect_to)
+    else:
+        form = LoginUserForm()
+    return render(request, 'login.html', {"form": form, "redirect_to": redirect_to})
+
+
+@login_required(login_url='login')
+def logout_user(request):
+    """
+    Выход текущего авторизованного пользователя из системы
+    Если пользователь не авторизован то он не может выйти из аккаунта
+    """
+    redirect_to = request.GET.get('next')
+    if redirect_to is None:
+        # Для избежания циклических редиректов при logout/ -> login/?next=/logout -> logout/
+        return redirect('blog')
+    logout(request)
+    return redirect(redirect_to)
 
 
 def error404(request, exception):

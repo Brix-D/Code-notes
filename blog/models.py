@@ -3,7 +3,7 @@ from django.db import models
 from django.db.models.signals import post_delete, pre_save
 from django.shortcuts import reverse
 from django.dispatch import receiver
-
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -76,7 +76,8 @@ def delete_old_file_on_save(sender, instance, **kwargs):
 
 class Comment(models.Model):
     """Комментарий к статье"""
-    author = models.TextField(max_length=45, blank=False, verbose_name='Автор комментария')
+    # author = models.TextField(max_length=45, blank=False, verbose_name='Автор комментария')
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, verbose_name='Автор комментария')
     text = models.TextField(max_length=400, blank=False, verbose_name='Текст комментария')
     created = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     art = models.ForeignKey(Note, on_delete=models.CASCADE, verbose_name='Номер статьи')

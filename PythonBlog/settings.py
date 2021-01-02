@@ -100,6 +100,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Параметр для редиректа при попытке доступа к странице требующей авторизации
+
+LOGIN_URL = 'login'
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/

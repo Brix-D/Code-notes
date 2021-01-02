@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm, Textarea, TextInput, FileInput, PasswordInput, EmailInput
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.forms import User
 from .models import Note, Comment
 
@@ -21,14 +21,13 @@ class CommentForm(ModelForm):
     """Форма на основе класса модели Comment"""
     class Meta:
         model = Comment
-        fields = ["author", "text"]
+        fields = ["text"]
         widgets = {
             "author": TextInput(attrs={'placeholder': 'Ваше имя:'}),
             "text": Textarea(attrs={'cols': 30, 'rows': 10, 'placeholder': 'Текст:'})
         }
         labels = {
-            "author": "Ваше имя:",
-            "text": "Текст:"
+            "text": "Текст:",
         }
 
 
@@ -51,3 +50,9 @@ class RegisterUserForm(UserCreationForm):
     class Meta:
         model = User
         fields = ["username", "email", "password1", "password2"]
+
+
+class LoginUserForm(AuthenticationForm):
+    """Форма для авторизации пользователей"""
+    username = forms.CharField(widget=TextInput(attrs={'placeholder': 'Ваш логин:', "autocomplete": "off"}))
+    password = forms.CharField(widget=PasswordInput(attrs={'placeholder': 'Ваш пароль:', "autocomplete": "off"}))

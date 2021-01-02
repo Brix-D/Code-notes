@@ -70,7 +70,7 @@
     outline: 0;
 }
 
-.add-note-form-container form input[type="submit"]:hover, .add-note-form-container form .label-file:hover {
+.add-note-form-container form input[type="submit"]:hover, .add-note-form-container form .label-file:hover, .rollback:hover {
     color: var(--hover-text-color);
     text-shadow: 0px 0px 3px var(--hover-text-color);
     cursor: pointer;
@@ -99,4 +99,18 @@
 .add-note-form-container form .label-file.has-file .icon:before {
     content:"\f00c";
     color: #5AAC7B;
+}
+.rollback {
+    width: 25%;
+    height: 60px;
+    margin-top: 2%;
+    display: inline-block;
+    color: inherit;
+    text-align: center;
+    font-size: 24px;
+    line-height: 2.5em;
+    background-color: var(--main-background-color);
+    border-radius: 20px;
+    border: 0;
+    text-decoration: none;
 }
