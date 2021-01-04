@@ -78,16 +78,13 @@ def add_comment(request, id):
     """Добавление комментария"""
     if request.method == "POST":
         form = CommentForm(request.POST)
-        print(form)
         if form.is_valid():
             entry = form.save(commit=False)
             entry.art_id = id
             entry.author_id = request.user.pk
             entry.save()
             return redirect("viewNote", id=id)
-    else:
-        form = CommentForm()
-    return render(request, "comments.html", {"form": form})
+    return redirect("viewNote", id=id)
 
 
 # def search_one(request):

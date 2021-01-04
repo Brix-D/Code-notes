@@ -22,7 +22,7 @@
         </div>
         {% if request.user.is_authenticated %}
             <div class="article-buttons">
-                <a href="{% url 'editNote' note.pk %}">Редактировать</a>
+                <a href="{% url 'editNote' id=note.pk %}">Редактировать</a>
                 <a href="javascript:showPU()">Удалить</a>
             </div>
         {% endif %}
