@@ -2,6 +2,13 @@
 {% block main %}
 <main class="wrapper violet-text-color background-wrapper-color">
     <div class="article-block">
+        {% if messages %}
+        <div>
+            {% for message in messages %}
+            <p class="warning">{{ message }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
         <div class="article-item">
             <div class="article-title-container">
                 <div class="article-title">
@@ -21,27 +28,28 @@
             </div>
         </div>
         {% if request.user.is_authenticated %}
-            <div class="article-buttons">
-                <a href="{% url 'editNote' id=note.pk %}">Редактировать</a>
-                <a href="javascript:showPU()">Удалить</a>
-            </div>
+        <div class="article-buttons">
+            <a href="{% url 'editNote' id=note.pk %}">Редактировать</a>
+            <a href="javascript:showPU()">Удалить</a>
+            <a href="{% url 'download_pic' id=note.pk %}">Скачать картинку</a>
+        </div>
         {% endif %}
     </div>
     <div class="comments-block">
         <h2>Комментарии</h2>
         {% if request.user.is_authenticated %}
-            <div class="write-comment">
-                <form action="{% url 'addComment' id=note.pk %}" method="POST">
-                    {% csrf_token %}
-                    {% for field in form %}
-                    {% if field.errors %}
-                    <span style="color: red;"> {{ field.errors }}</span>
-                    {% endif %}
-                    {{ field }}
-                    {% endfor %}
-                    <input type="submit" value="Отправить">
-                </form>
-            </div>
+        <div class="write-comment">
+            <form action="{% url 'addComment' id=note.pk %}" method="POST">
+                {% csrf_token %}
+                {% for field in form %}
+                {% if field.errors %}
+                <span style="color: red;"> {{ field.errors }}</span>
+                {% endif %}
+                {{ field }}
+                {% endfor %}
+                <input type="submit" value="Отправить">
+            </form>
+        </div>
         {% endif %}
         <div class="comments-container">
             <div class="comments-item">
@@ -87,6 +95,7 @@
     function hidePU(){
         $('#popup').hide();
     }
+
 </script>
 {% endblock %}
 

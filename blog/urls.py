@@ -7,6 +7,7 @@ urlpatterns = [
     path('note/delete/<int:id>', views.delete_note, name="deleteNote"),  # Удалить статью
     path('note/edit/<int:id>', views.edit_note, name="editNote"),  # Удалить статью
     path('note/view/<int:id>', views.view_note, name="viewNote"),  # Просмотр статьи с указанным номером
+    path('note/download/<int:id>', views.download_picture, name="download_pic"),  # Загрузка картинки
     path('comments/create/<int:id>', views.add_comment, name="addComment"),  # Добавление комментария
     # path('searchone', views.search_one, name="searchone"),  # Пути для Ajax-запросов
     path('search/', views.search_multy, name="searchmulty"),  # Поиск статей в базе данных

@@ -1,12 +1,14 @@
 from django.core import serializers
 from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
-from django.http import JsonResponse
+from django.http import JsonResponse, FileResponse, Http404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from .models import Note, Comment, User
 from .forms import NoteForm, CommentForm, RegisterUserForm, LoginUserForm
+from django.contrib import messages
+import os.path
 
 
 # Create your views here.
@@ -71,6 +73,20 @@ def delete_note(request, id):
     note = get_object_or_404(Note, pk=id)
     note.delete()
     return redirect("blog")
+
+
+@login_required(login_url='login')
+def download_picture(request, id):
+    """Функция скачивания картинки статьи"""
+    note = get_object_or_404(Note, pk=id)
+    file_path = note.picture.name
+    if os.path.exists(file_path):  # Если файл существует
+        return FileResponse(open(file_path, 'rb'), as_attachment=True)  # Отдает файл бразуеру как загрузка
+    else:
+        messages.error(request, "Файл не найден")
+        # Добавляет сообщение об ошибке,
+        # которое будет показано 1 раз на следующей странице
+        return redirect('viewNote', id)
 
 
 @login_required(login_url='login')
