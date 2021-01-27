@@ -2,13 +2,6 @@
 {% block main %}
 <main class="wrapper violet-text-color background-wrapper-color">
     <div class="article-block">
-        {% if messages %}
-        <div>
-            {% for message in messages %}
-            <p class="warning">{{ message }}</p>
-            {% endfor %}
-        </div>
-        {% endif %}
         <div class="article-item">
             <div class="article-title-container">
                 <div class="article-title">
@@ -18,6 +11,15 @@
                     <p>{{ note.created|date:"Y-m-d" }}</p>
                 </div>
             </div>
+            {% if messages %}
+            <div class="message_container page_message_width">
+                {% for message in messages %}
+                <div class="message_item {{ message.tags }}">
+                    <p>{{ message }}</p>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
             {% if note.picture %}
             <div class="article-image-container">
                 <img src="/{{ note.picture }}" alt="Фото">
@@ -95,6 +97,7 @@
     function hidePU(){
         $('#popup').hide();
     }
+
 
 </script>
 {% endblock %}

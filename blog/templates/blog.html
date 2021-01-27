@@ -4,6 +4,15 @@
 
 <main class="wrapper violet-text-color">
     <div class="news-container background-wrapper-color">
+        {% if messages %}
+            <div class="message_container page_message_width">
+                {% for message in messages %}
+                <div class="message_item {{ message.tags }}">
+                    <p>{{ message }}</p>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
         {% for item in data %}
         <div class="new-block">
             <div class="new-title-block">

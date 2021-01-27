@@ -4,6 +4,15 @@
     <div class="register-container">
         <div class="register-form-container">
             <h1>Вход</h1>
+            {% if messages %}
+            <div class="message_container form_message_width_30">
+                {% for message in messages %}
+                <div class="message_item {{ message.tags }}">
+                    <p>{{ message }}</p>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
             <form action="{% url 'login' %}?next={{ redirect_to }}" method="post">
                 {% csrf_token %}
                 {% for field in form %}

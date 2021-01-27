@@ -5,8 +5,17 @@
         <div class="add-note-form-container">
             {% if mode == 'add' %}
             <h1>Добавить статью</h1>
-            {% else  %}
+            {% else %}
             <h1>Изменить статью</h1>
+            {% endif %}
+            {% if messages %}
+            <div class="message_container form_message_width_60">
+                {% for message in messages %}
+                <div class="message_item {{ message.tags }}">
+                    <p>{{ message }}</p>
+                </div>
+                {% endfor %}
+            </div>
             {% endif %}
             <form action="
             {% if mode == 'add' %}

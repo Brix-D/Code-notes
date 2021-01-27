@@ -23,8 +23,10 @@ def blog(request):
         articles = articles_paginator.page(current_page)
     except EmptyPage:
         articles = articles_paginator.page(1)
+        messages.error(request, "Страницы с таким номером не существует")
     except PageNotAnInteger:
         articles = articles_paginator.page(1)
+        # messages.error(request, "Номер страницы должен быть целым числом")
     return render(request, 'blog.html', {"data": articles})
 
 
@@ -45,7 +47,10 @@ def add_note(request):
         form = NoteForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            messages.success(request, "Заметка успешно добавлена")
             return redirect("blog")
+        else:
+            messages.error(request, "Форма заполнена некорректно")
     else:
         form = NoteForm()
     return render(request, 'newnote.html', {"form": form, "mode": "add"})
@@ -61,10 +66,13 @@ def edit_note(request, id):
         form = NoteForm(request.POST, request.FILES, instance=note)
         if form.is_valid():
             form.save()
+            messages.success(request, "Заметка успешно изменена")
             return redirect("viewNote", id=id)
+        else:
+            messages.error(request, "Форма заполнена некорректно")
     else:
         form = NoteForm(instance=note)
-        return render(request, 'newnote.html', {"form": form, "mode": "edit", "id": id})
+    return render(request, 'newnote.html', {"form": form, "mode": "edit", "id": id})
 
 
 @login_required(login_url='login')
@@ -72,6 +80,7 @@ def delete_note(request, id):
     """Удаление статьи"""
     note = get_object_or_404(Note, pk=id)
     note.delete()
+    messages.success(request, "Заметка успешно удалена")
     return redirect("blog")
 
 
@@ -99,7 +108,10 @@ def add_comment(request, id):
             entry.art_id = id
             entry.author_id = request.user.pk
             entry.save()
+            messages.success(request, "Комментарий успешно добавлен")
             return redirect("viewNote", id=id)
+        else:
+            messages.error(request, "Форма заполнена некорректно")
     return redirect("viewNote", id=id)
 
 
@@ -155,7 +167,10 @@ def register_user(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
+            messages.success(request, "Вы успешно зарегистрированы")
             return redirect(redirect_to)
+        else:
+            messages.error(request, "При регистрации произошла ошибка")
     else:
         form = RegisterUserForm()
     return render(request, 'register.html', {"form": form, "redirect_to": redirect_to})
@@ -179,7 +194,11 @@ def login_user(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
+            messages.success(request, f'Добро пожаловать {user.username}!')
             return redirect(redirect_to)
+        else:
+            messages.error(request,
+                           "При авторизации произошла ошибка. Проверьте правильность введенного логина и пароля")
     else:
         form = LoginUserForm()
     return render(request, 'login.html', {"form": form, "redirect_to": redirect_to})
@@ -196,10 +215,10 @@ def logout_user(request):
         # Для избежания циклических редиректов при logout/ -> login/?next=/logout -> logout/
         return redirect('blog')
     logout(request)
+    messages.success(request, "Вы вышли из аккаунта")
     return redirect(redirect_to)
 
 
 def error404(request, exception):
     """Обработчик 404 страницы"""
     return render(request, '404.html')
-

@@ -216,7 +216,7 @@ header .navigation .navigation-inner nav ul {
 
 /*файлы*/
 
-.left , .right {
+/*.left , .right {
     width: 95%;
     margin: 0 auto;
     border: 1px black solid;
@@ -226,7 +226,46 @@ header .navigation .navigation-inner nav ul {
 
 .left h2 , .right h2 {
     text-align: center;
+}*/
+
+/*Всплывающие сообщения*/
+
+.message_container {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 }
-.warning {
-    color: lightcoral;
+
+.page_message_width {
+    width: 100%;
+}
+
+.form_message_width_60 {
+    width: 60%;
+    margin-top: 3%;
+}
+.form_message_width_30 {
+    width: 30%;
+    margin-top: 1%;
+}
+
+.message_item {
+    width: 100%;
+    height: auto;
+    word-break: break-word;
+    text-align: center;
+    color: var(--hover-text-color);
+    padding: 2%;
+}
+
+.message_item p {
+    font-size: 1.25em;
+}
+
+.error {
+    background: lightcoral;
+}
+.success {
+    background: #2f7c2f;
 }
