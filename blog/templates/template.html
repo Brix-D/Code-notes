@@ -27,10 +27,12 @@
     </div>
     <div class="navigation">
         <div class="navigation-inner">
+            {% load i18n %}
             <nav>
                 <ul>
                     <li>
-                        <a href=""><p>Оставить отзыв</p></a>
+                        <a href=""><p>{% translate 'menu_feedback' %}</p></a>
+<!--                        Оставить отзыв-->
                     </li>
                     <li>
                         <a href=""><p>Статистика</p></a>

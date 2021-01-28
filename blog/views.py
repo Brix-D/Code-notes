@@ -9,7 +9,7 @@ from .models import Note, Comment, User
 from .forms import NoteForm, CommentForm, RegisterUserForm, LoginUserForm
 from django.contrib import messages
 import os.path
-
+from django.utils import translation
 
 # Create your views here.
 
@@ -218,6 +218,13 @@ def logout_user(request):
     messages.success(request, "Вы вышли из аккаунта")
     return redirect(redirect_to)
 
+
+def set_user_language(request, language):
+    redirect_to = request.GET.get('next')
+    translation.activate(language)
+    response = redirect(redirect_to)
+    response.set_cookie('lang', language)
+    return response
 
 def error404(request, exception):
     """Обработчик 404 страницы"""
