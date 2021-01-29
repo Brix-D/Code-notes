@@ -219,7 +219,8 @@ def logout_user(request):
     return redirect(redirect_to)
 
 
-def set_user_language(request, language):
+def set_user_language(request):
+    language = request.POST.get('language')
     redirect_to = request.GET.get('next')
     translation.activate(language)
     response = redirect(redirect_to)

@@ -149,9 +149,9 @@ header .navigation .navigation-inner nav ul {
 
 /*блок поиска*/
 .search-block {
-    width: 20%;
+    width: 15%;
     height: 50%;
-    margin-right: 2%;
+    //margin-right: 2%;
 }
 .search_form {
     width: 100%;
@@ -172,7 +172,7 @@ header .navigation .navigation-inner nav ul {
     font-size: 18px;
 }
 
-.search_form input:focus {
+.search_form input:focus, .localization form select:focus {
     outline: 0;
     border: 0;
     box-shadow: 0px 0px 10px var(--hover-text-color);
@@ -204,6 +204,28 @@ header .navigation .navigation-inner nav ul {
 }
 .result p:last-child {
     border-bottom: 0px;
+}
+
+/*всплывающий список с языками*/
+.localization {
+    width: 7%;
+    height: auto;
+}
+
+.localization form {
+    width: 100%;
+}
+
+.localization form select {
+    width: 90%;
+    height: 40px;
+    box-sizing: border-box;
+    padding: 4%;
+    border: 0;
+    outline: 0;
+    opacity: 1;
+    color: var(--main-background-color);
+    font-size: 18px;
 }
 
 /*подложка*/

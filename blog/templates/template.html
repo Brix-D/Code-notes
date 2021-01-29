@@ -63,6 +63,15 @@
                     <div class="result invisible" id="res"></div>
                 </form>
             </div>
+            <div class="localization">
+                <form action="{% url 'change_language' %}?next={{ request.path }}" method="post">
+                    {% csrf_token %}
+                    <select name="language" id="select_lang" onchange="this.form.submit()"> <!-- Автоматическая отправка формы при выборе варианта селекта -->
+                        <option value="ru">Russian</option>
+                        <option value="en">English</option>
+                    </select>
+                </form>
+            </div>
         </div>
     </div>
 </header>
@@ -75,5 +84,6 @@
 </div>
 <script type="text/javascript" src="{% static 'js/lookfor.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/upload_file.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/language.js' %}"></script>
 </body>
 </html>
