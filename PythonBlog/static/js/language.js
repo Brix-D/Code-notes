@@ -6,9 +6,9 @@ $(document).ready(
         // https://learn.javascript.ru/traversing-dom
         language_list = Array.prototype.slice.call(language_list);
         language_list.forEach(function(value) {
-            console.log(value);
             if (value.getAttribute("value") == getCookie("lang")) {
-                console.log("язык - " + value.getAttribute("value"));
+                // Сравнивает значение варианта языка и куку текущего языка,
+                // если равны то ставит варианту атрибут selected
                 value.setAttribute('selected', '');
             }
         });

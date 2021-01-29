@@ -220,12 +220,18 @@ def logout_user(request):
 
 
 def set_user_language(request):
+    """
+    Изменяет язык интерфейса пользователя,
+    текущий язык отображения сохраняет в куку,
+    редиректит обратно на предыдущую страницу
+    """
     language = request.POST.get('language')
     redirect_to = request.GET.get('next')
     translation.activate(language)
     response = redirect(redirect_to)
     response.set_cookie('lang', language)
     return response
+
 
 def error404(request, exception):
     """Обработчик 404 страницы"""
