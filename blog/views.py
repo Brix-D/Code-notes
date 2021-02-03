@@ -10,7 +10,9 @@ from .forms import NoteForm, CommentForm, RegisterUserForm, LoginUserForm
 from django.contrib import messages
 import os.path
 from django.utils import translation
-
+import qrcode
+import random
+import string
 # Create your views here.
 
 
@@ -231,6 +233,38 @@ def set_user_language(request):
     response = redirect(redirect_to)
     response.set_cookie('lang', language)
     return response
+
+
+def create_qr_code(request):
+    """Генерация QR-кода с URL текущей страницы"""
+    page = request.GET.get("page")
+    # image = qrcode.make(request.get_host() + page)
+    qr_generator = qrcode.QRCode(
+        version=5,
+        box_size=10,
+        border=3
+    )  # объект через который создается qr-код
+    qr_generator.add_data(request.get_host() + page)  # добавление данных для кодирования
+    qr_generator.make(fit=True)
+    # fit=True задает поведение, такое что бы все QR-коды были нужного размера,
+    # даже если данные умещаются в меньшем объеме
+    image = qr_generator.make_image(fill='black', back_color='white')  # создание изображения с цветами
+    img_name = generate_random_string(15)
+    img_path = f'media/qrs/{img_name}.png'
+    # file = tempfile.NamedTemporaryFile(suffix='.png', dir='media/qrs', delete=False)  # Создание временного файла
+    # Баг - на винде временный файл нельзя автоматически удалять - permission denied,
+    # поэтому был использован обычный механизм работы с файлами
+    image.save(img_path)  # сохранение изображения
+    return FileResponse(open(img_path, 'rb'), as_attachment=True)  # Скачивание картинки с QR-кодом
+
+
+def generate_random_string(length):
+    """
+    Создание рандомной строки из символов
+    ASCII верхнего и нижнего регистра
+    """
+    letters = string.ascii_letters
+    return ''.join(random.choice(letters) for i in range(length))
 
 
 def error404(request, exception):
