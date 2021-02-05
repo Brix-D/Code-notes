@@ -5,6 +5,12 @@
         <div class="article-item">
             <div class="article-title-container">
                 <div id="article-id">{{ note.id }}</div>
+                <div class="article-like">
+                    <a id="like-link" href="#">
+                        <div id="like-img"></div>
+                        <div id="like-count"></div>
+                    </a>
+                </div>
                 <div class="article-title">
                     <h1>{{ note.title }}</h1>
                 </div>
@@ -35,7 +41,7 @@
             <a href="{% url 'editNote' id=note.pk %}">Редактировать</a>
             <a href="javascript:showPU()">Удалить</a>
             <a href="{% url 'download_pic' id=note.pk %}">Скачать картинку</a>
-            <a id="like" href="{% url 'like' note_id=note.pk %}">Лайк</a>
+            <!--            <a id="like" href="{% url 'like' note_id=note.pk %}">Лайк</a>-->
         </div>
         {% endif %}
     </div>
@@ -93,10 +99,12 @@
     $(document).ready(function () {
         hidePU();
     });
+
     function showPU() {
         $('#popup').show();
     }
-    function hidePU(){
+
+    function hidePU() {
         $('#popup').hide();
     }
 

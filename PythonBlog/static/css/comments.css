@@ -26,6 +26,33 @@
 #article-id {
     display: none;
 }
+
+.article-like {
+    width: 60px;
+    position: absolute;
+    left: 0;
+    height: 40px;
+}
+
+.article-like a {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+}
+
+.article-like a #like-img {
+    height: 100%;
+    width: 65%;
+}
+
+.article-like a #like-count {
+    color: var(--main-text-color);
+    font-size: 18px;
+    line-height: 2em;
+}
+
 .article-title {
 	width: 100%;
 	height: auto;

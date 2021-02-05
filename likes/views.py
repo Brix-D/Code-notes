@@ -35,25 +35,36 @@ def is_liked_object(obj, user):
 @login_required(login_url='login')
 def add_like(request, note_id):
     """Представление для добавления лайка"""
-    response = {}
+    response = {"status": False}
     if request.is_ajax():
         object_note = get_object_or_404(Note, pk=note_id)
         current_user = request.user
         add_like_to_object(object_note, current_user)
         response["status"] = True
-        return JsonResponse(response)
-    else:
-        response["status"] = False
-        return JsonResponse(response)
+    return JsonResponse(response)
+
+
+@login_required(login_url='login')
+def remove_like(request, note_id):
+    """Представление для удаления лайка"""
+    response = {"status": False}
+    if request.is_ajax():
+        object_note = get_object_or_404(Note, pk=note_id)
+        current_user = request.user
+        remove_like_from_object(object_note, current_user)
+        response["status"] = True
+    return JsonResponse(response)
 
 
 def check_liked(request, note_id):
     """Проверяет лайкнул ли текущий авторизованный пользователь данную запись"""
-    response = {"status": False}
+    object_note = get_object_or_404(Note, pk=note_id)
+    count_likes = object_note.total_likes
+    response = {"status": False, "count": count_likes}
     if request.is_ajax():
         if not request.user.is_authenticated:
             return JsonResponse(response)
-        object_note = get_object_or_404(Note, pk=note_id)
+        # Если пользователь не авторизован - то запись считается не лайкнутой
         current_user = request.user
         response["status"] = is_liked_object(object_note, current_user)
     return JsonResponse(response)
