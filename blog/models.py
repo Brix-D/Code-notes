@@ -4,7 +4,8 @@ from django.db.models.signals import post_delete, pre_save
 from django.shortcuts import reverse
 from django.dispatch import receiver
 from django.contrib.auth.models import User
-
+from django.contrib.contenttypes.fields import GenericRelation
+from likes.models import Like
 # Create your models here.
 
 
@@ -15,8 +16,8 @@ class Note(models.Model):
     created = models.DateTimeField(auto_now_add=True,
                                    verbose_name='Дата создания')  # поле даты и времени с текущим временем при создании
     picture = models.ImageField(upload_to="media/Images/%Y-%m-%d", blank=True, verbose_name="Фото статьи")
-
     # поле хранит название картинки, и папку куда следует загружать картинку, %Y-%m-%d дата загрузки в названии папки
+    likes = GenericRelation(Like)
 
     def get_absolute_url(self):
         """Метод для получения url экземпляра модели через представление"""
@@ -29,6 +30,10 @@ class Note(models.Model):
 
     def __str__(self):
         return self.title
+
+    @property
+    def total_likes(self):
+        return self.likes.count()
 
     # Еще один способ, запасной вариант
     # def save(self, *args, **kwargs):

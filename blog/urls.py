@@ -15,5 +15,5 @@ urlpatterns = [
     path('login/', views.login_user, name="login"),  # Авторизация пользователя
     path('logout/', views.logout_user, name="logout"),  # Авторизация пользователя
     path('language/change/', views.set_user_language, name="change_language"),  # смена языка отображения сайта
-    path('qr-code/create', views.create_qr_code, name="get_QR"),
+    path('qr-code/create', views.create_qr_code, name="get_QR"),  # получение QR-кода со ссылкой на текущую страницу
 ]

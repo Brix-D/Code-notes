@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'likes.apps.LikesConfig',
     'blog.apps.BlogConfig',
 ]
 
@@ -153,7 +154,7 @@ LOCALE_PATHS = (
 
 STATIC_URL = '/static/'
 STATIC_ROOt = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS =[
+STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'PythonBlog/static'),
 ]
 
