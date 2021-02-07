@@ -1,5 +1,5 @@
 from django import forms
-from django.forms import ModelForm, Textarea, TextInput, FileInput, PasswordInput, EmailInput
+from django.forms import ModelForm, Textarea, TextInput, FileInput, PasswordInput, EmailInput, HiddenInput
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.forms import User
 from .models import Note, Comment
@@ -21,10 +21,11 @@ class CommentForm(ModelForm):
     """Форма на основе класса модели Comment"""
     class Meta:
         model = Comment
-        fields = ["text"]
+        fields = ["text", "parent"]
         widgets = {
-            "author": TextInput(attrs={'placeholder': 'Ваше имя:'}),
-            "text": Textarea(attrs={'cols': 30, 'rows': 10, 'placeholder': 'Текст:'})
+            # "author": TextInput(attrs={'placeholder': 'Ваше имя:'}),
+            "text": Textarea(attrs={'cols': 30, 'rows': 10, 'placeholder': 'Текст:'}),
+            "parent": HiddenInput()
         }
         labels = {
             "text": "Текст:",

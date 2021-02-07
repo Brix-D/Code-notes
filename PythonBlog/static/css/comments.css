@@ -201,27 +201,67 @@
 }
 
 .comments-container {
-
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .comments-item {
-    width: 30%;
+    width: 80%;
     height: auto;
+    word-break: break-word;
+    text-align: justify;
 }
-.comments-item-author {
 
+.comments-item-title {
+    width: 100%;
+    height: auto;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    padding: 1% 0;
+}
+
+.comments-item-author {
+    font-size: 18px;
+    font-weight: bold;
+    width: 100%;
 }
 
 .comments-item-text {
-
+    line-height: 1.5em;
 }
 
 .comments-item-date {
-
+    position: absolute;
+    right: 0;
 }
 
 .comments-item-author p, .comments-item-text p, .comments-item-date p {
     width: 100%;
+}
+
+.comments-item-replies {
+    margin-left: 5%;
+}
+
+#reply_name_block {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    margin-left: 40%;
+}
+
+#reply_to_name {
+
+}
+
+#cancel_reply {
+    display: inline-block;
+    margin-left: 1%;
 }
 
 /*всплывающее окно*/

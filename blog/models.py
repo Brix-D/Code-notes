@@ -6,6 +6,8 @@ from django.dispatch import receiver
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericRelation
 from likes.models import Like
+
+
 # Create your models here.
 
 
@@ -24,7 +26,7 @@ class Note(models.Model):
         return reverse("viewNote", kwargs={"id": self.pk})
 
     class Meta:
-        verbose_name = "Статья"  # Челочекочитаемое имя для админки
+        verbose_name = "Статья"  # Человекочитаемое имя для админки
         verbose_name_plural = "Статьи"
         ordering = ["-created"]
 
@@ -86,9 +88,13 @@ class Comment(models.Model):
     text = models.TextField(max_length=400, blank=False, verbose_name='Текст комментария')
     created = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     art = models.ForeignKey(Note, on_delete=models.CASCADE, verbose_name='Номер статьи')
-
     # Внешний ключ на Id статьи, при удалении статьи
     # комментарии удаляются каскадно
+    parent = models.ForeignKey('self', on_delete=models.SET_NULL, blank=True, null=True, related_name='replies',
+                               verbose_name='Ответный комментарий на')
+    # Ссылка на родительский комментарий
+    # Пример ответов на комментарии взят отсюда
+    # https://coderoad.ru/44837733/Как-сделать-добавть-ответы-на-комментарии-в-Django
 
     class Meta:
         verbose_name = "Комментарий"
@@ -96,4 +102,4 @@ class Comment(models.Model):
         ordering = ["-created"]  # базовая сортировка по убыванию даты
 
     def __str__(self):
-        return self.text[0:10]
+        return "{} - {}".format(self.author.username, self.text[0:15])

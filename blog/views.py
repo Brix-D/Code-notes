@@ -36,7 +36,7 @@ def view_note(request, id):
     """Вывод всех комментариев для указанной записи"""
     # note = Note.objects.get(pk=id)
     note = get_object_or_404(Note, pk=id)
-    comms = Comment.objects.filter(art__id=id)
+    comms = Comment.objects.filter(art__id=id, parent__isnull=True)
     # comms = get_list_or_404(Comment, art__id=id)
     form = CommentForm()
     return render(request, 'comments.html', {"note": note, "comms": comms, "form": form})
@@ -106,6 +106,16 @@ def add_comment(request, id):
     if request.method == "POST":
         form = CommentForm(request.POST)
         if form.is_valid():
+            parent_object = None
+            try:
+                parent_id = int(request.POST.get('parent'))  # если скрытый инпут не пустой
+            except:
+                parent_id = None
+            if parent_id:
+                parent_object = Comment.objects.get(pk=parent_id)  # получить объект родительского комментария
+                if parent_object:  # если объект найден
+                    reply_comment = form.save(commit=False)
+                    reply_comment.parent = parent_object
             entry = form.save(commit=False)
             entry.art_id = id
             entry.author_id = request.user.pk

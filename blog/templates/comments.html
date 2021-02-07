@@ -1,5 +1,6 @@
 {% extends 'template.html' %}
 {% block main %}
+{% load static %}
 <main class="wrapper violet-text-color background-wrapper-color">
     <div class="article-block">
         <div class="article-item">
@@ -39,9 +40,8 @@
         {% if request.user.is_authenticated %}
         <div class="article-buttons">
             <a href="{% url 'editNote' id=note.pk %}">Редактировать</a>
-            <a href="javascript:showPU()">Удалить</a>
+            <a href="javascript:show_pop_up_window()">Удалить</a>
             <a href="{% url 'download_pic' id=note.pk %}">Скачать картинку</a>
-            <!--            <a id="like" href="{% url 'like' note_id=note.pk %}">Лайк</a>-->
         </div>
         {% endif %}
     </div>
@@ -51,6 +51,9 @@
         <div class="write-comment">
             <form action="{% url 'addComment' id=note.pk %}" method="POST">
                 {% csrf_token %}
+                <div id="reply_name_block">
+                    <p id="reply_to_name">Ответить</p><a href="#" id="cancel_reply">X</a>
+                </div>
                 {% for field in form %}
                 {% if field.errors %}
                 <span style="color: red;"> {{ field.errors }}</span>
@@ -62,29 +65,61 @@
         </div>
         {% endif %}
         <div class="comments-container">
-            <div class="comments-item">
-                {% if comms %}
-                {% for comment in comms %}
-                <div class="comments-item-author">
-                    {% if comment.author.username %}
-                    <p>{{ comment.author.username }}:</p>
-                    {% else %}
-                    <p>Удалено</p>
-                    {% endif %}
+
+            {% if comms %}
+            {% for comment in comms %}
+            <div class="comments-item" data-comment-id="{{ comment.id }}">
+                <div class="comments-item-title">
+                    <div class="comments-item-author">
+                        {% if comment.author.username %}
+                        <p>{{ comment.author.username }}:</p>
+                        {% else %}
+                        <p>Удалено</p>
+                        {% endif %}
+                    </div>
+                    <div class="comments-item-date">
+                        <p>{{ comment.created|date:"Y-m-d" }}</p>
+                    </div>
                 </div>
                 <div class="comments-item-text">
                     <p>{{ comment.text }}</p>
                 </div>
-                <div class="comments-item-date">
-                    <p>{{ comment.created|date:"Y-m-d" }}</p>
+                {% if comment.author.username %}
+                <div class="container-reply-link">
+                    <a class="reply-link" href="#">Ответить</a>
                 </div>
-                {% endfor %}
-                {% else %}
+                {% endif %}
+                <div class="comments-item-replies">
+                    {% for reply in comment.replies.all %}
+                    <div class="comments-item-replies-item">
+                        <div class="comments-item-title">
+                            <div class="comments-item-author">
+                                {% if reply.author.username %}
+                                <p>{{ reply.author.username }}:</p>
+                                {% else %}
+                                <p>Удалено</p>
+                                {% endif %}
+                            </div>
+                            <div class="comments-item-date">
+                                <p>{{ reply.created|date:"Y-m-d" }}</p>
+                            </div>
+                        </div>
+                        <div class="comments-item-text">
+                            <p>{{ comment.author.username }}, {{ reply.text }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <div class="comments-item">
                 <div class="comments-item-text">
                     <p>Эту запись еще никто не комментировал</p>
                 </div>
-                {% endif %}
             </div>
+            {% endif %}
+
         </div>
     </div>
 </main>
@@ -92,23 +127,26 @@
     <div class="block-confirm">
         <p>Данная запись будет удалена. Подтвердить?</p>
         <a href="{% url 'deleteNote' note.pk %}">Да</a>
-        <a href="javascript:hidePU()">Нет</a>
+        <a href="javascript:hide_pop_up_window()">Нет</a>
     </div>
 </div>
 <script>
     $(document).ready(function () {
-        hidePU();
+        hide_pop_up_window();
     });
 
-    function showPU() {
+    function show_pop_up_window() {
         $('#popup').show();
     }
 
-    function hidePU() {
+    function hide_pop_up_window() {
         $('#popup').hide();
     }
 
 
 </script>
+<script type="text/javascript" src="{% static 'js/cookie.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/likes.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/reply.js' %}"></script>
 {% endblock %}
 

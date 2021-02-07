@@ -13,7 +13,7 @@ class NoteAdmin(admin.ModelAdmin):
 
 class CommentAdmin(admin.ModelAdmin):
     """Таблица Comments в админке"""
-    list_display = ['id', 'author', 'text', 'created', 'art']
+    list_display = ['id', 'author', 'text', 'created', 'art', 'parent']
     list_display_links = ['id', 'author', 'text']
     list_filter = ['author']  # фильтр по автору коммента
     search_fields = ['author', 'text']
